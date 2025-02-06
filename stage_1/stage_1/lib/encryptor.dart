@@ -31,7 +31,10 @@ class Encryptor {
 
     return List.generate(
       text.length,
-      (i) => text[i] ^ key[i % keyLength],
+      (i) =>
+          text[i] ^
+          key[i %
+              keyLength], //ensures the key is repeated to match the length of the text
     );
   }
 }
