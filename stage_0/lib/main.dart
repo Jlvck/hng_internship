@@ -7,32 +7,27 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  Future<void> _launchUrl(String address, BuildContext ctx) async {
+    final Uri url = Uri.parse(address);
+
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      final snackBar = SnackBar(
+        content: Text(
+          'Could not lauch URL, please try again later',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+      );
+      ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _launchUrl(String address) async {
-      final Uri _url = Uri.parse(address);
-
-      try {
-        print(
-          'trying to launch $_url',
-        );
-        if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
-          throw Exception('Could not launch $_url');
-        }
-      } catch (e) {
-        print('could ot launch ');
-        final snackBar = SnackBar(
-          content: Text(
-            'Could not lauch URL, please try again later',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.white,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    }
-
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.black,
@@ -50,7 +45,7 @@ class MyApp extends StatelessWidget {
             double screenHeight = MediaQuery.of(context).size.height -
                 MediaQuery.of(context).padding.top -
                 AppBar().preferredSize.height;
-            print(AppBar().preferredSize.height);
+
             return SizedBox(
               width: screenWidth,
               height: screenHeight,
@@ -136,7 +131,8 @@ class MyApp extends StatelessWidget {
                         OutlinedButton.icon(
                           onPressed: () {
                             _launchUrl(
-                                'https://github.com/Jlvck/hng_internship');
+                                'https://github.com/Jlvck/hng_internship',
+                                context);
                           },
                           label: Text(
                             'GitHub',
@@ -147,7 +143,8 @@ class MyApp extends StatelessWidget {
                         OutlinedButton.icon(
                           onPressed: () {
                             _launchUrl(
-                                'http://hng.tech/hire/flutter-developers');
+                                'http://hng.tech/hire/flutter-developers',
+                                context);
                           },
                           label: Text(
                             'HNG',
