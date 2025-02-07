@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   void _decryptText() {
     final encryptor = Encryptor(key: _keyController.text);
     setState(() {
-      _outputText = encryptor.decrypt(_textController.text);
+      _outputText = encryptor.decrypt(_textController.text.trim());
     });
   }
 
